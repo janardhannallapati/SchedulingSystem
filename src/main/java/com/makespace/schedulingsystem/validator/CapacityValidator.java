@@ -1,4 +1,10 @@
 package com.makespace.schedulingsystem.validator;
 
-public class CapacityValidator {
+import com.makespace.schedulingsystem.BookingInfo;
+
+public class CapacityValidator extends AbstractValidator {
+    @Override
+    public boolean validate(BookingInfo bookingInfo) {
+        return true;
+    }
 }
