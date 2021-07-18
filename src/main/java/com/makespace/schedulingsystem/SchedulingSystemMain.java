@@ -21,7 +21,7 @@ public class SchedulingSystemMain {
             String endTime = arr[2];
             if(action.equals("BOOK")){
                 int capacity=Integer.parseInt(arr[3]);
-                String output = system.bookMeetingRoom(action, startTime, endTime, capacity);
+                String output = system.bookMeetingRoom(startTime, endTime, capacity);
                 System.out.println(output);
             }
             else if(action.equals("VACANCY")){

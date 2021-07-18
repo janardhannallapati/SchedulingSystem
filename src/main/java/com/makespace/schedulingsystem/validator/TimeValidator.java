@@ -93,6 +93,8 @@ public class TimeValidator extends AbstractValidator {
                         if(hrEndInt < 5){
                             return true;
                         }
+                    default:
+                        return false;
                 }
             }
 

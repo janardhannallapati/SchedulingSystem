@@ -40,25 +40,25 @@ class SchedulingSystemTest {
  will be allocated, provided it is available.
  */
     @Test
-    public void bookMeetingRoom_should_not_return_meetingroom_with_no_start_or_end_times(){
+    void bookMeetingRoom_should_not_return_meetingroom_with_no_start_or_end_times(){
         SchedulingSystem system = new SchedulingSystem();
-        String name=system.bookMeetingRoom("BOOK","12:15","",10 );
+        String name=system.bookMeetingRoom("12:15","",10 );
         assertThat(name).isEqualTo(INCORRECT_INPUT);
     }
 
     @Test
-    public void bookMeetingRoom_should_book_room_only_when_action_is_book(){
+    void bookMeetingRoom_should_book_room_only_when_action_is_book(){
         SchedulingSystem system = new SchedulingSystem();
-        String name=system.bookMeetingRoom("BOOK","14:00" , "15:00",10 );
+        String name=system.bookMeetingRoom("14:00" , "15:00",10 );
         assertThat(name).isNotEqualTo(INCORRECT_INPUT);
     }
 
     @DisplayName("Should validate that times are in 24 hrs format, end time is greater than start time and start and end times are in 15 minute intervals")
     @ParameterizedTest(name = "{index} => startTime={0}, endTime={1}")
     @MethodSource("bookMeetingRoomOnlyWhenTimesAreIn24hrFormatProvider")
-    public void bookMeetingRoomOnlyWhenTimesAreIn24hrFormat(String startTime, String endTime){
+    void bookMeetingRoomOnlyWhenTimesAreIn24hrFormat(String startTime, String endTime){
         SchedulingSystem system = new SchedulingSystem();
-        String name=system.bookMeetingRoom("BOOK",startTime, endTime,12 );
+        String name=system.bookMeetingRoom(startTime, endTime,12 );
         assertThat(name).isEqualTo(INCORRECT_INPUT);
 
     }
@@ -83,9 +83,9 @@ class SchedulingSystemTest {
     @DisplayName("Should show NO_VACANT_ROOM if booking with a overlapping buffer time")
     @ParameterizedTest(name = "{index} => startTime={0}, endTime={1}")
     @MethodSource("bookMeetingRoomFailsWhenTimeOverlapsBufferTimeProvider")
-    public void bookMeetingRoomFailsWhenTimeOverlapsBufferTime(String startTime, String endTime){
+    void bookMeetingRoomFailsWhenTimeOverlapsBufferTime(String startTime, String endTime){
         SchedulingSystem system = new SchedulingSystem();
-        String name=system.bookMeetingRoom("BOOK",startTime, endTime,15 );
+        String name=system.bookMeetingRoom(startTime, endTime,15 );
         assertThat(name).isEqualTo(NO_VACANT_ROOM);
     }
 
@@ -100,19 +100,19 @@ class SchedulingSystemTest {
     }
 
     @Test
-    public void bookMeetingRoomFailsIfNotBookAsPerCapacityLimit(){
+    void bookMeetingRoomFailsIfNotBookAsPerCapacityLimit(){
         SchedulingSystem system = new SchedulingSystem();
-        String name=system.bookMeetingRoom("BOOK","12:00", "13:00",25);
+        String name=system.bookMeetingRoom("12:00", "13:00",25);
         assertThat(name).isEqualTo(NO_VACANT_ROOM);
-        name=system.bookMeetingRoom("BOOK","12:00", "13:00",1);
+        name=system.bookMeetingRoom("12:00", "13:00",1);
         assertThat(name).isEqualTo(NO_VACANT_ROOM);
     }
 
     @DisplayName("should book a meeting room as per capacity and availability")
     @ParameterizedTest(name = "{index} => startTime={0}, endTime={1}")
     @MethodSource("bookMeetingRoomShouldReturnRoomAsPerCapacityAndAvailabilityProvider")
-    public void bookMeetingRoomShouldReturnRoomAsPerCapacityAndAvailability(String startTime, String endTime, int attendeeCount, String expectedMsg, SchedulingSystem system){
-        String name=system.bookMeetingRoom("BOOK", startTime, endTime, attendeeCount);
+    void bookMeetingRoomShouldReturnRoomAsPerCapacityAndAvailability(String startTime, String endTime, int attendeeCount, String expectedMsg, SchedulingSystem system){
+        String name=system.bookMeetingRoom( startTime, endTime, attendeeCount);
         assertThat(name).isEqualTo(expectedMsg);
     }
 

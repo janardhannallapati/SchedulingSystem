@@ -1,5 +1,6 @@
 package com.makespace.schedulingsystem;
 
+import com.makespace.schedulingsystem.validator.CapacityValidator;
 import com.makespace.schedulingsystem.validator.TimeValidator;
 import com.makespace.schedulingsystem.validator.Validator;
 
@@ -38,9 +39,10 @@ public class SchedulingSystem {
         validators = new ArrayList<>();
         TimeValidator timeValidator = new TimeValidator(bufferTimeList);
         validators.add(timeValidator);
+        validators.add(new CapacityValidator());
     }
 
-    public  String bookMeetingRoom(String action, String startTime, String endTime, int noOfAttendees) {
+    public  String bookMeetingRoom(String startTime, String endTime, int noOfAttendees) {
 
         String message = validateInput(startTime, endTime, noOfAttendees);
         if (message != null) return message;
@@ -52,10 +54,6 @@ public class SchedulingSystem {
         Optional<Validator> result = validators.stream().filter(validator -> !validator.validate(bookingInfo)).findFirst();
         if(result.isPresent()){
             return result.get().getInvalidMessage();
-        }
-
-        if(!validCapacity(noOfAttendees)){
-            return Constants.NO_VACANT_ROOM;
         }
 
         return null;
@@ -74,14 +72,5 @@ public class SchedulingSystem {
 
         return Constants.NO_VACANT_ROOM;
     }
-
-    private boolean validCapacity(int noOfAttendees){
-        if(noOfAttendees>= Constants.ATTENDEE_LOWER_LIMIT && noOfAttendees <= Constants.ATTENDEE_UPPER_LIMIT){
-            return true;
-        }
-        return false;
-    }
-
-
 
 }
