@@ -62,7 +62,7 @@ public class TimeValidator extends AbstractValidator {
         private boolean validMinutes(String minuteVal) {
         if(isNumericTimeData(minuteVal)){
             int minuteStartInt = Character.getNumericValue(minuteVal.charAt(0));
-            if(minuteStartInt < 6 && validInterval(Integer.parseInt(minuteVal))){
+            if(minuteStartInt <= Constants.MINUTE_START_DIGIT_LIMIT && validInterval(Integer.parseInt(minuteVal))){
                 return true;
             }
 

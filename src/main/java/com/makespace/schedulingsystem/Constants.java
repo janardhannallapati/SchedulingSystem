@@ -12,4 +12,5 @@ public class Constants {
     public static final int CCAPACITY = 3;
     public static final int DCAPACITY = 7;
     public static final int GCAPACITY = 20;
+    public static final int MINUTE_START_DIGIT_LIMIT = 5;
 }
