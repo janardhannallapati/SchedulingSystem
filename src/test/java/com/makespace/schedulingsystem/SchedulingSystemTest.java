@@ -100,7 +100,7 @@ class SchedulingSystemTest {
     }
 
     @Test
-    void bookMeetingRoomFailsIfNotBookAsPerCapacityLimit(){
+    void bookMeetingRoomFailsIfNotBookedAsPerCapacityLimit(){
         SchedulingSystem system = new SchedulingSystem();
         String name=system.bookMeetingRoom("12:00", "13:00",25);
         assertThat(name).isEqualTo(NO_VACANT_ROOM);

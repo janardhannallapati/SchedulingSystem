@@ -11,7 +11,7 @@ public class MeetingRoom {
     public MeetingRoom(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
-        this.bookedTimes = new ArrayList<BlockedTime>();
+        this.bookedTimes = new ArrayList<>();
     }
 
     public boolean isSlotAvailable(String startTime, String endTime, int reqdCapacity){
@@ -43,7 +43,7 @@ public class MeetingRoom {
         return capacity;
     }
 
-    public List getBookedTimes() {
+    public List<BlockedTime> getBookedTimes() {
         return bookedTimes;
     }
 }

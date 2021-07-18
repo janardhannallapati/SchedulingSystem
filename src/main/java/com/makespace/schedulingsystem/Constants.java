@@ -1,12 +1,15 @@
 package com.makespace.schedulingsystem;
 
 public class Constants {
-    public final static String INCORRECT_INPUT ="INCORRECT_INPUT";
-    public final static String NO_VACANT_ROOM = "NO_VACANT_ROOM";
-    public final static int ATTENDEE_LOWER_LIMIT = 2;
-    public final static int ATTENDEE_UPPER_LIMIT = 20;
-    public final static int INTERVAL_LIMIT = 15;
-    public final static int CCAPACITY = 3;
-    public final static int DCAPACITY = 7;
-    public final static int GCAPACITY = 20;
+    private Constants(){
+
+    }
+    public static final String INCORRECT_INPUT ="INCORRECT_INPUT";
+    public static final String NO_VACANT_ROOM = "NO_VACANT_ROOM";
+    public static final int ATTENDEE_LOWER_LIMIT = 2;
+    public static final int ATTENDEE_UPPER_LIMIT = 20;
+    public static final int INTERVAL_LIMIT = 15;
+    public static final int CCAPACITY = 3;
+    public static final int DCAPACITY = 7;
+    public static final int GCAPACITY = 20;
 }

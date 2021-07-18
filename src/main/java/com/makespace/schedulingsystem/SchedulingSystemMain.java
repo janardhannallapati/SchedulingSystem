@@ -11,22 +11,25 @@ public class SchedulingSystemMain {
             System.out.println("Error, usage: java ClassName inputfile");
             System.exit(1);
         }
-        Scanner reader = new Scanner(new File(args[0]));
-        SchedulingSystem system = new SchedulingSystem();
-        while(reader.hasNext()){
-            String inputLIne = reader.nextLine();
-             String[] arr= inputLIne.split("\\s");
-            String action = arr[0];
-            String startTime = arr[1];
-            String endTime = arr[2];
-            if(action.equals("BOOK")){
-                int capacity=Integer.parseInt(arr[3]);
-                String output = system.bookMeetingRoom(startTime, endTime, capacity);
-                System.out.println(output);
+        try(Scanner reader = new Scanner(new File(args[0]))){
+            SchedulingSystem system = new SchedulingSystem();
+            while (reader.hasNext()) {
+                String inputLIne = reader.nextLine();
+                String[] arr = inputLIne.split("\\s");
+                String action = arr[0];
+                String startTime = arr[1];
+                String endTime = arr[2];
+                if (action.equals("BOOK")) {
+                    int capacity = Integer.parseInt(arr[3]);
+                    String output = system.bookMeetingRoom(startTime, endTime, capacity);
+                    System.out.println(output);
+                } else if (action.equals("VACANCY")) {
+                    System.out.println("NOT IMPLEMENTED YET");
+                }
             }
-            else if(action.equals("VACANCY")){
-                System.out.println("NOT IMPLEMENTED YET");
+        }catch (FileNotFoundException e){
+              throw e;
             }
         }
     }
-}
+

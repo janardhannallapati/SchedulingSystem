@@ -48,19 +48,20 @@ public class TimeValidator extends AbstractValidator {
     private boolean isValidTime(String time) {
         if(null != time && time.length()>0){
             String[] arr=time.split(":");
-            if(null != arr && arr.length == 2){
-                if(validHour(arr[0]) && validMinutes(arr[1])){
+            if(null != arr && arr.length == 2 && isValidHourAndTime(arr[0],arr[1])){
                     return true;
-                }
             }
         }
         return false;
     }
 
-    private boolean validMinutes(String minuteVal) {
+    private boolean isValidHourAndTime(String hour, String minutes){
+        return validHour(hour) && validMinutes(minutes);
+    }
+
+        private boolean validMinutes(String minuteVal) {
         if(isNumericTimeData(minuteVal)){
             int minuteStartInt = Character.getNumericValue(minuteVal.charAt(0));
-            int minuteEndInt = Character.getNumericValue(minuteVal.charAt(1));
             if(minuteStartInt < 6 && validInterval(Integer.parseInt(minuteVal))){
                 return true;
             }
@@ -70,11 +71,7 @@ public class TimeValidator extends AbstractValidator {
     }
 
     private boolean validInterval(int time){
-        if(time == 0 || time%Constants.INTERVAL_LIMIT == 0 ){
-            return true;
-        }
-
-        return false;
+        return (time == 0 || time%Constants.INTERVAL_LIMIT == 0 );
     }
 
     private boolean validHour(String hourVal) {
@@ -93,6 +90,7 @@ public class TimeValidator extends AbstractValidator {
                         if(hrEndInt < 5){
                             return true;
                         }
+                        break;
                     default:
                         return false;
                 }

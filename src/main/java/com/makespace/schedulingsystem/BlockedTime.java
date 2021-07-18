@@ -31,10 +31,7 @@ public class BlockedTime {
         Set<Integer> result = bookingRangeList.stream()
                                .distinct().filter(blockedRangeList::contains)
                 .collect(Collectors.toSet());
-        if(result.size()>0){
-            return true;
-        }
 
-        return false;
+        return !result.isEmpty();
     }
 }
