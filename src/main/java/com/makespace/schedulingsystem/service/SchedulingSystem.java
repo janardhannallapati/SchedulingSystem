@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SchedulingSystem {
 
@@ -62,7 +63,7 @@ public class SchedulingSystem {
     private String checkAndBookMeetingRoom(String startTime, String endTime, int noOfAttendees){
         Optional<MeetingRoom> availableRoom=meetingRooms.stream()
                 .sorted(Comparator.comparing(MeetingRoom::getCapacity))
-                .filter(meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, noOfAttendees))
+                .filter(meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, noOfAttendees, true))
                 .findFirst();
         if(availableRoom.isPresent()){
             int bookingStartTimeInt = Integer.parseInt(startTime.replace(":",""));
@@ -73,4 +74,16 @@ public class SchedulingSystem {
         return Constants.NO_VACANT_ROOM;
     }
 
+    public String vacancy(String startTime, String endTime) {
+        List<MeetingRoom> resultRooms = meetingRooms.stream().filter(
+                    meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, 0, false)
+                )
+                .collect(Collectors.toList());
+        if(!resultRooms.isEmpty()){
+            StringBuilder roomNames= new StringBuilder();
+            resultRooms.forEach(meetingRoom -> roomNames.append(meetingRoom.getName()).append(" "));
+            return roomNames.toString().trim();
+        }
+        return Constants.NO_VACANT_ROOM;
+    }
 }

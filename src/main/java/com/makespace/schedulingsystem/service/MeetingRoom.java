@@ -14,8 +14,8 @@ public class MeetingRoom {
         this.bookedTimes = new ArrayList<>();
     }
 
-    public boolean isSlotAvailable(String startTime, String endTime, int reqdCapacity){
-       if(reqdCapacity>capacity){
+    public boolean isSlotAvailable(String startTime, String endTime, int reqdCapacity, boolean doCapacityCheck){
+       if(doCapacityCheck && reqdCapacity>capacity){
            return false;
        }
 
