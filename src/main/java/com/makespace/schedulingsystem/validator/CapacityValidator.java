@@ -1,7 +1,7 @@
 package com.makespace.schedulingsystem.validator;
 
-import com.makespace.schedulingsystem.BookingInfo;
-import com.makespace.schedulingsystem.Constants;
+import com.makespace.schedulingsystem.service.BookingInfo;
+import com.makespace.schedulingsystem.service.Constants;
 
 public class CapacityValidator extends AbstractValidator {
     @Override

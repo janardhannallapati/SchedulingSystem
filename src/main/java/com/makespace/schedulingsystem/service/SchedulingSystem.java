@@ -1,4 +1,4 @@
-package com.makespace.schedulingsystem;
+package com.makespace.schedulingsystem.service;
 
 import com.makespace.schedulingsystem.validator.CapacityValidator;
 import com.makespace.schedulingsystem.validator.TimeValidator;
@@ -75,15 +75,21 @@ public class SchedulingSystem {
     }
 
     public String vacancy(String startTime, String endTime) {
-        List<MeetingRoom> resultRooms = meetingRooms.stream().filter(
-                    meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, 0, false)
-                )
-                .collect(Collectors.toList());
-        if(!resultRooms.isEmpty()){
-            StringBuilder roomNames= new StringBuilder();
-            resultRooms.forEach(meetingRoom -> roomNames.append(meetingRoom.getName()).append(" "));
-            return roomNames.toString().trim();
+        TimeValidator timeValidator = new TimeValidator(bufferTimeList);
+        if(timeValidator.validate( new BookingInfo(startTime, endTime))) {
+            List<MeetingRoom> resultRooms = meetingRooms.stream().filter(
+                        meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, 0, false)
+                    )
+                    .collect(Collectors.toList());
+            if (!resultRooms.isEmpty()) {
+                StringBuilder roomNames = new StringBuilder();
+                resultRooms.forEach(meetingRoom -> roomNames.append(meetingRoom.getName()).append(" "));
+                return roomNames.toString().trim();
+            }
+            else{
+                timeValidator.setInvalidMessage(Constants.NO_VACANT_ROOM);
+            }
         }
-        return Constants.NO_VACANT_ROOM;
+        return timeValidator.getInvalidMessage();
     }
 }

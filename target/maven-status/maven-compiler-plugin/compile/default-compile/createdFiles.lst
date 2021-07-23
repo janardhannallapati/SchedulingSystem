@@ -1,3 +1,10 @@
-com\makespace\schedulingsystem\BufferTime.class
-com\makespace\schedulingsystem\SchedulingSystem.class
+com\makespace\schedulingsystem\validator\CapacityValidator.class
+com\makespace\schedulingsystem\validator\TimeValidator.class
+com\makespace\schedulingsystem\validator\Validator.class
+com\makespace\schedulingsystem\service\MeetingRoom.class
+com\makespace\schedulingsystem\service\Constants.class
+com\makespace\schedulingsystem\service\BookingInfo.class
+com\makespace\schedulingsystem\validator\AbstractValidator.class
 com\makespace\schedulingsystem\SchedulingSystemMain.class
+com\makespace\schedulingsystem\service\BlockedTime.class
+com\makespace\schedulingsystem\service\SchedulingSystem.class

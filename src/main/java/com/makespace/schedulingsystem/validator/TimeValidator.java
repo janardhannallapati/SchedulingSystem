@@ -1,8 +1,8 @@
 package com.makespace.schedulingsystem.validator;
 
-import com.makespace.schedulingsystem.BlockedTime;
-import com.makespace.schedulingsystem.BookingInfo;
-import com.makespace.schedulingsystem.Constants;
+import com.makespace.schedulingsystem.service.BlockedTime;
+import com.makespace.schedulingsystem.service.BookingInfo;
+import com.makespace.schedulingsystem.service.Constants;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class TimeValidator extends AbstractValidator {
         return true;
     }
     
-    private boolean overlappingBufferTime(String startTime, String endTime) {
+    public boolean overlappingBufferTime(String startTime, String endTime) {
         for(BlockedTime bufferTime: bufferTimeList){
             if(bufferTime.overlapsWithBookingTime(startTime, endTime)){
                 return true;

@@ -1,4 +1,4 @@
-package com.makespace.schedulingsystem;
+package com.makespace.schedulingsystem.service;
 
 import java.util.ArrayList;
 import java.util.List;

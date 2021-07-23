@@ -1,5 +1,6 @@
 package com.makespace.schedulingsystem;
 
+import com.makespace.schedulingsystem.service.SchedulingSystem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,28 +18,6 @@ class SchedulingSystemTest {
     public final static String DTOWER = "D-Tower";
     public final static String GMANSION = "G-Mansion";
 
-    /*
-    Rules
-   1. Bookings can be made only in a single day from 00:00 to night 23:45.
-   It cannot overlap across days. So you cannot book from 23:00 to 01:00,
-   but can from 23:00 to 23:45.
-/*
- 3. The rooms will be allocated only to those who book them, on a first come
- first serve basis.
- */
-
-/*
- 4. The most optimal room which can accommodate the number of people will be
- allocated. For eg., if you asked for a 4 person capacity requirement then
- the D-Tower (7 person capacity) will be allocated, provided it is available.
- */
-
-/*
- 5. In case if the room of desired capacity is not available, the next available
- capacity room will be allocated. For eg., If you asked for the 4 person capacity
- room between 12:00 to 13:00 and the D-Tower is not available then the G-Mansion
- will be allocated, provided it is available.
- */
     @Test
     void bookMeetingRoom_should_not_return_meetingroom_with_no_start_or_end_times(){
         SchedulingSystem system = new SchedulingSystem();
@@ -130,5 +109,22 @@ class SchedulingSystemTest {
                Arguments.of("18:00", "19:00", 3, NO_VACANT_ROOM, system)
         );
 
+    }
+
+    @Test
+    void vacancyReturnsAvailableRooms(){
+        SchedulingSystem system = new SchedulingSystem();
+        //String name=system.bookMeetingRoom("12:00", "13:00",25);
+        String rooms = system.vacancy("10:00", "12:00");
+        assertThat(rooms).isEqualTo("C-Cave D-Tower G-Mansion");
+        system.bookMeetingRoom("10:00","12:00", 20);
+        rooms = system.vacancy("10:00", "12:00");
+        assertThat(rooms).isEqualTo("C-Cave D-Tower");
+        system.bookMeetingRoom("10:00","12:00", 2);
+        rooms = system.vacancy("10:00", "12:00");
+        assertThat(rooms).isEqualTo("D-Tower");
+        system.bookMeetingRoom("10:00","12:00", 7);
+        rooms = system.vacancy("10:00", "12:00");
+        assertThat(rooms).isEqualTo(NO_VACANT_ROOM);
     }
 }

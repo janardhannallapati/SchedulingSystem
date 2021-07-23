@@ -1,5 +1,7 @@
 package com.makespace.schedulingsystem;
 
+import com.makespace.schedulingsystem.service.SchedulingSystem;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -24,7 +26,8 @@ public class SchedulingSystemMain {
                     String output = system.bookMeetingRoom(startTime, endTime, capacity);
                     System.out.println(output);
                 } else if (action.equals("VACANCY")) {
-                    System.out.println("NOT IMPLEMENTED YET");
+                    String output = system.vacancy(startTime, endTime);
+                    System.out.println(output);
                 }
             }
         }catch (FileNotFoundException e){

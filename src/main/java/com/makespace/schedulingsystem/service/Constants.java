@@ -1,4 +1,4 @@
-package com.makespace.schedulingsystem;
+package com.makespace.schedulingsystem.service;
 
 public class Constants {
     private Constants(){
