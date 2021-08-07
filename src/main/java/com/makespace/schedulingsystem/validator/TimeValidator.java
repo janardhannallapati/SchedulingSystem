@@ -8,6 +8,10 @@ import java.util.List;
 
 public class TimeValidator extends AbstractValidator {
 
+    public static final int hrStartIntLimit = 2;
+    public static final int maxCharsInTime = 2;
+    public static final int hrEndIntLimit1 = 9;
+    public static final int hrEndIntLimit2 = 4;
     private final List<BlockedTime> bufferTimeList;
 
     public TimeValidator(List<BlockedTime> bufferTimeList) {
@@ -16,7 +20,7 @@ public class TimeValidator extends AbstractValidator {
 
     @Override
     public boolean validate(BookingInfo bookingInfo) {
-        if( !isValidTime(bookingInfo.getStartTime()) || !isValidTime(bookingInfo.getEndTime()) ){
+        if( isValidTime(bookingInfo.getStartTime()) || isValidTime(bookingInfo.getEndTime())){
             setInvalidMessage(Constants.INCORRECT_INPUT);
             return false;
         }
@@ -48,11 +52,9 @@ public class TimeValidator extends AbstractValidator {
     private boolean isValidTime(String time) {
         if(null != time && time.length()>0){
             String[] arr=time.split(":");
-            if(null != arr && arr.length == 2 && isValidHourAndTime(arr[0],arr[1])){
-                    return true;
-            }
+            return arr.length != 2 || !isValidHourAndTime(arr[0], arr[1]);
         }
-        return false;
+        return true;
     }
 
     private boolean isValidHourAndTime(String hour, String minutes){
@@ -62,32 +64,30 @@ public class TimeValidator extends AbstractValidator {
         private boolean validMinutes(String minuteVal) {
         if(isNumericTimeData(minuteVal)){
             int minuteStartInt = Character.getNumericValue(minuteVal.charAt(0));
-            if(minuteStartInt <= Constants.MINUTE_START_DIGIT_LIMIT && validInterval(Integer.parseInt(minuteVal))){
-                return true;
-            }
+            return minuteStartInt <= Constants.MINUTE_START_DIGIT_LIMIT && validInterval(Integer.parseInt(minuteVal));
 
         }
         return  false;
     }
 
     private boolean validInterval(int time){
-        return (time == 0 || time%Constants.INTERVAL_LIMIT == 0 );
+        return (time % Constants.INTERVAL_LIMIT == 0);
     }
 
     private boolean validHour(String hourVal) {
         if(isNumericTimeData(hourVal)){
             int hrStartInt = Character.getNumericValue(hourVal.charAt(0));
             int hrEndInt = Character.getNumericValue(hourVal.charAt(1));
-            if( hrStartInt <= 2){
+            if( hrStartInt <= hrStartIntLimit){
                 switch (hrStartInt){
                     case 0 :
                     case 1 :
-                        if(hrStartInt >= 0 && hrEndInt <= 9){
+                        if(hrEndInt <= hrEndIntLimit1){
                             return true;
                         }
                         break;
                     case 2:
-                        if(hrEndInt < 5){
+                        if(hrEndInt <= hrEndIntLimit2){
                             return true;
                         }
                         break;
@@ -101,12 +101,10 @@ public class TimeValidator extends AbstractValidator {
     }
 
     private boolean isNumericTimeData(String time){
-        if(null != time && time.length() == 2){
+        if(null != time && time.length() == maxCharsInTime){
             char start = time.charAt(0);
             char end = time.charAt(1);
-            if(Character.isDigit(start) && Character.isDigit(end)) {
-                return true;
-            }
+            return Character.isDigit(start) && Character.isDigit(end);
         }
         return false;
     }

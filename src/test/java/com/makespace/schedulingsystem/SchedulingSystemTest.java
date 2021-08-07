@@ -1,7 +1,7 @@
 package com.makespace.schedulingsystem;
 
 import com.makespace.schedulingsystem.service.SchedulingSystem;
-import com.makespace.schedulingsystem.service.SchedulingSystemFactory;
+import com.makespace.schedulingsystem.service.SchedulingSystemBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,14 +21,14 @@ class SchedulingSystemTest {
 
     @Test
     void bookMeetingRoom_should_not_return_meetingroom_with_no_start_or_end_times(){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         String name=system.bookMeetingRoom("12:15","",10 );
         assertThat(name).isEqualTo(INCORRECT_INPUT);
     }
 
     @Test
     void bookMeetingRoom_should_book_room_only_when_action_is_book(){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         String name=system.bookMeetingRoom("14:00" , "15:00",10 );
         assertThat(name).isNotEqualTo(INCORRECT_INPUT);
     }
@@ -37,7 +37,7 @@ class SchedulingSystemTest {
     @ParameterizedTest(name = "{index} => startTime={0}, endTime={1}")
     @MethodSource("bookMeetingRoomOnlyWhenTimesAreIn24hrFormatProvider")
     void bookMeetingRoomOnlyWhenTimesAreIn24hrFormat(String startTime, String endTime){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         String name=system.bookMeetingRoom(startTime, endTime,12 );
         assertThat(name).isEqualTo(INCORRECT_INPUT);
 
@@ -64,7 +64,7 @@ class SchedulingSystemTest {
     @ParameterizedTest(name = "{index} => startTime={0}, endTime={1}")
     @MethodSource("bookMeetingRoomFailsWhenTimeOverlapsBufferTimeProvider")
     void bookMeetingRoomFailsWhenTimeOverlapsBufferTime(String startTime, String endTime){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         String name=system.bookMeetingRoom(startTime, endTime,15 );
         assertThat(name).isEqualTo(NO_VACANT_ROOM);
     }
@@ -81,7 +81,7 @@ class SchedulingSystemTest {
 
     @Test
     void bookMeetingRoomFailsIfNotBookedAsPerCapacityLimit(){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         String name=system.bookMeetingRoom("12:00", "13:00",25);
         assertThat(name).isEqualTo(NO_VACANT_ROOM);
         name=system.bookMeetingRoom("12:00", "13:00",1);
@@ -97,7 +97,7 @@ class SchedulingSystemTest {
     }
 
     private static Stream<Arguments> bookMeetingRoomShouldReturnRoomAsPerCapacityAndAvailabilityProvider(){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         return Stream.of(
                Arguments.of("11:00", "11:45", 2, CCAVE, system),
                Arguments.of("11:30", "13:00", 35, NO_VACANT_ROOM, system),
@@ -114,7 +114,7 @@ class SchedulingSystemTest {
 
     @Test
     void vacancyReturnsAvailableRooms(){
-        SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+        SchedulingSystem system = new SchedulingSystemBuilder().build();
         //String name=system.bookMeetingRoom("12:00", "13:00",25);
         String rooms = system.vacancy("10:00", "12:00");
         assertThat(rooms).isEqualTo("C-Cave D-Tower G-Mansion");

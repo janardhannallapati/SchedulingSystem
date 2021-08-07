@@ -1,7 +1,7 @@
 package com.makespace.schedulingsystem;
 
 import com.makespace.schedulingsystem.service.SchedulingSystem;
-import com.makespace.schedulingsystem.service.SchedulingSystemFactory;
+import com.makespace.schedulingsystem.service.SchedulingSystemBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +15,7 @@ public class SchedulingSystemMain {
             System.exit(1);
         }
         try(Scanner reader = new Scanner(new File(args[0]))){
-            SchedulingSystem system = SchedulingSystemFactory.createSchedulingSystem();
+            SchedulingSystem system = new SchedulingSystemBuilder().build();
             while (reader.hasNext()) {
                 String inputLIne = reader.nextLine();
                 String[] arr = inputLIne.split("\\s");

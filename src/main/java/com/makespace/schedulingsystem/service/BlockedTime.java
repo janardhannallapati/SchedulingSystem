@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class BlockedTime {
-    private int blockStartTimeInt;
-    private int blockEndTimeInt;
+    private final int blockStartTimeInt;
+    private final int blockEndTimeInt;
 
     public BlockedTime(String startTime, String endTime){
         blockStartTimeInt = Integer.parseInt(startTime.replace(":",""));

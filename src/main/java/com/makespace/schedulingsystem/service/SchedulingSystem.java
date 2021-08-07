@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class SchedulingSystem {
 
-    private List<BlockedTime> bufferTimeList;
-    private List<MeetingRoom> meetingRooms;
-    private List<Validator> validators;
+    private final List<BlockedTime> bufferTimeList;
+    private final List<MeetingRoom> meetingRooms;
+    private final List<Validator> validators;
 
     public SchedulingSystem(List<BlockedTime> bufferTimeList, List<MeetingRoom> meetingRooms, List<Validator> validators){
         this.bufferTimeList = bufferTimeList;
@@ -22,7 +22,9 @@ public class SchedulingSystem {
     public  String bookMeetingRoom(String startTime, String endTime, int noOfAttendees) {
 
         String message = validateInput(startTime, endTime, noOfAttendees);
-        if (message != null) return message;
+        if (message.length()>0) {
+            return message;
+        }
         return checkAndBookMeetingRoom(startTime, endTime, noOfAttendees);
     }
 
@@ -34,7 +36,7 @@ public class SchedulingSystem {
             return result.get().getInvalidMessage();
         }
 
-        return null;
+        return "";
     }
 
     private String checkAndBookMeetingRoom(String startTime, String endTime, int noOfAttendees){
@@ -54,19 +56,25 @@ public class SchedulingSystem {
     public String vacancy(String startTime, String endTime) {
         TimeValidator timeValidator = new TimeValidator(bufferTimeList);
         if(timeValidator.validate( new BookingInfo(startTime, endTime))) {
-            List<MeetingRoom> resultRooms = meetingRooms.stream().filter(
-                        meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, 0, false)
-                    )
-                    .collect(Collectors.toList());
-            if (!resultRooms.isEmpty()) {
-                StringBuilder roomNames = new StringBuilder();
-                resultRooms.forEach(meetingRoom -> roomNames.append(meetingRoom.getName()).append(" "));
-                return roomNames.toString().trim();
-            }
-            else{
-                timeValidator.setInvalidMessage(Constants.NO_VACANT_ROOM);
-            }
+            String roomNames = getVacantRooms(startTime, endTime, timeValidator);
+            if (roomNames != null) return roomNames;
         }
         return timeValidator.getInvalidMessage();
+    }
+
+    private String getVacantRooms(String startTime, String endTime, TimeValidator timeValidator) {
+        List<MeetingRoom> resultRooms = meetingRooms.stream().filter(
+                    meetingRoom -> meetingRoom.isSlotAvailable(startTime, endTime, 0, false)
+                )
+                .collect(Collectors.toList());
+        if (!resultRooms.isEmpty()) {
+            StringBuilder roomNames = new StringBuilder();
+            resultRooms.forEach(meetingRoom -> roomNames.append(meetingRoom.getName()).append(" "));
+            return roomNames.toString().trim();
+        }
+        else{
+            timeValidator.setInvalidMessage(Constants.NO_VACANT_ROOM);
+        }
+        return null;
     }
 }

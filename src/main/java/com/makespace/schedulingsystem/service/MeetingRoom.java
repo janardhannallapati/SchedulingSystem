@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeetingRoom {
-    private String name;
-    private int capacity;
-    private List<BlockedTime> bookedTimes;
+    private final String name;
+    private final int capacity;
+    private final List<BlockedTime> bookedTimes;
 
     public MeetingRoom(String name, int capacity) {
         this.name = name;
@@ -19,11 +19,8 @@ public class MeetingRoom {
            return false;
        }
 
-        return bookedTimes.stream().filter(
-                 blockedTime ->
-                        blockedTime.overlapsWithBookingTime(startTime, endTime)
-        )
-                .count() == 0;
+        return bookedTimes.stream().noneMatch(blockedTime ->
+                blockedTime.overlapsWithBookingTime(startTime, endTime));
 
     }
 
